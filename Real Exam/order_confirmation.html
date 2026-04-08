@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmation – Greenfield Local Hub</title>
+    <link rel="stylesheet" href="static/styles.css">
+
+    <!-- Supabase client --->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+<!-- NAVIGATION BAR -->
+<nav class="navbar">
+    <div class="logo">Greenfield Hub</div>
+
+    <ul class="nav-links">
+        <li>index.htmlHome</a></li>
+        <li>products.htmlProducts</a></li>
+        <li>checkout.htmlCheckout</a></li>
+    </ul>
+
+    <button class="logout-btn" onclick="logout()">Logout</button>
+</nav>
+
+<section class="confirmation-container">
+    <h1>Thank You for Your Order!</h1>
+    <p>Your order has been successfully placed.</p>
+
+    <p id="orderIDText"></p>
+
+    products.htmlContinue Shopping</a>
+</section>
+
+<!-- LOAD CUSTOMER SESSION (optional) -->
+<script>
+window.customer = JSON.parse(localStorage.getItem("customer"));
+</script>
+
+<!-- GET ORDER ID FROM URL -->
+<script>
+const params = new URLSearchParams(window.location.search);
+const id = params.get("orderid");
+
+if (id) {
+    document.getElementById("orderIDText").innerText =
+        "Your Order Number: #" + id;
+} else {
+    document.getElementById("orderIDText").innerText =
+        "Order number not found.";
+}
+</script>
+
+<script src="static/logout.js"></script>
+</body>
+</html>

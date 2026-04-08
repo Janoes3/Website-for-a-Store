@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Greenfield Local Hub</title>
+    <link rel="stylesheet" href="static/styles.css">
+
+    <!-- Supabase client --->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+<!-- NAVIGATION BAR -->
+<nav class="navbar">
+    <div class="logo">Greenfield Hub</div>
+
+    <ul class="nav-links">
+        <li>index.htmlHome</a></li>
+        <li>products.htmlProducts</a></li>
+        <li>checkout.htmlCheckout</a></li>
+    </ul>
+
+    <span id="welcomeUser"></span>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    static/images/farm_home_background.jpg
+    <div class="hero-overlay">
+        <h1>Fresh. Local. Sustainable.</h1>
+        <p>Supporting local farmers and producers across Greenfield.</p>
+        products.htmlShop Now</a>
+    </div>
+</section>
+
+<!-- PRODUCER SECTION -->
+<section class="producers">
+    <h2>Our Local Producers</h2>
+
+    <div class="producer-grid">
+        <div class="producer-card">
+            static/images/sam_orchard.jpg
+            <h3>Sam's Orchard</h3>
+            <p>Fresh fruit & juices</p>
+        </div>
+
+        <div class="producer-card">
+            static/images/hilltop_farms.jpg
+            <h3>Hilltop Farms</h3>
+            <p>Organic vegetables</p>
+        </div>
+
+        <div class="producer-card">
+            static/images/riverdale_dairy.jpg
+            <h3>Riverdale Dairy</h3>
+            <p>Milk & cheese</p>
+        </div>
+    </div>
+</section>
+
+<!-- LOGIN POPUP -->
+<div id="loginPopup" class="popup-overlay">
+    <div class="popup-box">
+        <h2>Login</h2>
+
+        <input type="email" id="popupEmail" placeholder="Email">
+        <input type="password" id="popupPassword" placeholder="Password">
+
+        <button onclick="popupLogin()">Login</button>
+
+        <p id="popupLoginMessage"></p>
+    </div>
+</div>
+
+<!-- POPUP LOGIN LOGIC -->
+<script>
+const supabaseClient = supabase.createClient(
+    "https://meafqlorjwyxnpfiqvck.supabase.co",
+    "sb_publishable_6qa6v8B1c51rNZbxY7wj6A_78MbwqED"
+);
+
+// Load session
+window.customer = JSON.parse(localStorage.getItem("customer"));
+
+// On load: show popup if not logged in
+window.onload = function () {
+    if (!window.customer) {
+        document.getElementById("loginPopup").style.display = "flex";
+    } else {
+        document.getElementById("welcomeUser").textContent =
+            "Welcome, " + window.customer.firstname;
+    }
+};
+
+// LOGIN FUNCTION
+async function popupLogin() {
+    const email = document.getElementById("popupEmail").value.trim();
+    const password = document.getElementById("popupPassword").value.trim();
+    const msg = document.getElementById("popupLoginMessage");
+
+    if (!email || !password) {
+        msg.textContent = "Please fill all fields.";
+        msg.style.color = "red";
+        return;
+    }
+
+    const hashed = btoa(password); // encode password prototype-style
+
+    const { data, error } = await supabaseClient
+        .from("tbl_customer")
+        .select("*")
+        .eq("email", email)
+        .eq("passwordhash", hashed)
+        .single();
+
+    if (error || !data) {
+        msg.textContent = "Invalid login.";
+        msg.style.color = "red";
+        return;
+    }
+
+    localStorage.setItem("customer", JSON.stringify(data));
+    window.customer = data;
+
+    msg.textContent = "Login successful!";
+    msg.style.color = "green";
+
+    setTimeout(() => {
+        document.getElementById("loginPopup").style.display = "none";
+        document.getElementById("welcomeUser").textContent =
+            "Welcome, " + data.firstname;
+    }, 500);
+}
+</script>
+
+<script src="static/logout.js"></script>
+</body>
+</html>

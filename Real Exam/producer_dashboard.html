@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Producer Dashboard – Greenfield Local Hub</title>
+    <link rel="stylesheet" href="static/styles.css">
+
+    <!-- Supabase client --->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+<!-- NAV BAR -->
+<nav class="navbar">
+    <div class="logo">GLH Producer Portal</div>
+
+    <ul class="nav-links">
+        <li>producer_dashboard.htmlDashboard</a></li>
+        <li>#Logout</a></li>
+    </ul>
+</nav>
+
+<!-- HEADER -->
+<section class="producer-header">
+    <h2 id="producerWelcome">Welcome, Producer</h2>
+</section>
+
+<!-- PRODUCTS SECTION -->
+<section class="producer-products">
+    <h3>Your Products</h3>
+
+    <div id="producerProducts">
+        <p>Loading your products...</p>
+    </div>
+</section>
+
+<!-- ORDERS SECTION -->
+<section class="producer-orders">
+    <h3>Your Incoming Orders</h3>
+
+    <div id="producerOrders">
+        <p>Loading orders...</p>
+    </div>
+</section>
+
+<!-- LOAD PRODUCER SESSION -->
+<script>
+window.producer = JSON.parse(localStorage.getItem("producer"));
+
+if (!window.producer || !window.producer.producerid) {
+    alert("Please log in as a producer.");
+    window.location.href = "producer_login.html";
+}
+</script>
+
+<!-- DASHBOARD JS -->
+<script src="static/logout.js"></script>
+<script src="static/producer_dashboard.js"></script>
+</body>
+</html>

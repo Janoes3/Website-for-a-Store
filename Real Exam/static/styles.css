@@ -1,0 +1,347 @@
+/* ============================================
+   GLOBAL STYLES
+================================================ */
+body {
+    font-family: Arial, Verdana, Geneva, Tahoma, sans-serif;
+    background-color: gainsboro;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+h2, h3 {
+    color: #2d6a4f;
+    text-align: center;
+}
+
+/* ============================================
+   NAVIGATION BAR
+================================================ */
+.navbar {
+    width: 100%;
+    background: #2d6a4f;
+    padding: 12px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li {
+    display: inline-block;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    background: #40916c;
+    padding: 8px 18px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    background: #1b4332;
+}
+
+#welcomeUser {
+    color: white;
+    font-size: 16px;
+    background: #40916c;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-left: 20px;
+}
+
+.logout-btn {
+    margin-left: 15px;
+    padding: 8px 16px;
+    background: crimson;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background: darkred;
+}
+
+/* ============================================
+   HERO SECTION
+================================================ */
+.hero {
+    position: relative;
+    height: 60vh;
+    overflow: hidden;
+}
+
+.hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.hero-overlay {
+    background: rgba(0,0,0,0.4);
+    height: 100%;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-button {
+    margin-top: 20px;
+    padding: 12px 25px;
+    background: #2d6a4f;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+}
+.hero-button:hover {
+    background: #1b4332;
+}
+
+/* ============================================
+   PRODUCERS SECTION
+================================================ */
+.producers {
+    padding: 40px;
+}
+.producer-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+.producer-card {
+    width: 250px;
+    text-align: center;
+}
+.producer-card img {
+    border-radius: 8px;
+}
+
+/* ============================================
+   PRODUCTS PAGE
+================================================ */
+.products {
+    padding: 40px;
+}
+.product-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+.product-card {
+    width: 200px;
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+.product-card button {
+    margin-top: 10px;
+    padding: 10px;
+    background: #2d6a4f;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.product-card button:hover {
+    background: #1b4332;
+}
+
+/* ============================================
+   CART SECTION
+================================================ */
+.cart-section {
+    width: 80%;
+    margin: 40px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.cart-controls button {
+    width: 25px;
+    height: 25px;
+    background: #2d6a4f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-btn {
+    background: crimson;
+    padding: 8px;
+    border: none;
+    color: white;
+    border-radius: 6px;
+}
+
+#checkoutBtn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    background: #2d6a4f;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+#checkoutBtn:hover {
+    background: #1b4332;
+}
+
+/* ============================================
+   CHECKOUT PAGE
+================================================ */
+.checkout-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+}
+.checkout-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* ============================================
+   CONFIRMATION PAGE
+================================================ */
+.confirmation-container {
+    max-width: 500px;
+    margin: 60px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* ============================================
+   LOGIN & REGISTER FORMS
+================================================ */
+.login-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+.login-box {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 350px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #b7c4be;
+    border-radius: 5px;
+}
+
+/* ============================================
+   LOGIN POPUP
+================================================ */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+.popup-box {
+    background: white;
+    padding: 25px;
+    width: 300px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+/* ============================================
+   PRODUCER DASHBOARD
+================================================ */
+.producer-header {
+    text-align: center;
+    padding: 20px;
+}
+
+.producer-products, .producer-orders {
+    max-width: 800px;
+    margin: 30px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+}
+
+.product-item, .order-item {
+    border-bottom: 1px solid #ddd;
+    padding: 12px;
+}
+
+.update-stock-btn {
+    padding: 6px 12px;
+    margin-top: 10px;
+    background: #2d6a4f;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.update-stock-btn:hover {
+    background: #1b4332;
+}
