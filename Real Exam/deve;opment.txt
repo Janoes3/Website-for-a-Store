@@ -4,3 +4,32 @@ Testing- Navigation, Customer Authentication, Producer Authentication, Cart Func
 Date, Summary of Change, Filename and version 
 
 
+
+Testing: Registration of valid input
+Mismatched Passwords 
+Invalid Email
+Phone number
+Empty fields 
+Long Input
+Inavlid Characters 
+
+Login
+password
+email
+empty fields 
+Ai generated passwords 
+
+Logic of the system 
+
+Registration with reused email address
+Logout funcyionality Display of error messages 
+Accessibitlity of Keyboaard
+
+
+
+
+
+
+
+
+
