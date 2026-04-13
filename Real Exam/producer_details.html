@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Producer Details – Greenfield Local Hub</title>
+    <link rel="stylesheet" href="static/styles.css">
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+<!-- NAVIGATION BAR -->
+<nav class="navbar">
+    <div class="logo">Greenfield Hub</div>
+
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+    </ul>
+
+    <button class="logout-btn" onclick="logout()">Logout</button>
+</nav>
+
+<!-- PRODUCER DETAILS -->
+<section class="checkout-container">
+    <h2 id="producerName">Loading producer...</h2>
+
+    <p id="producerDescription"></p>
+
+    <p><strong>Farming Methods:</strong> <span id="farmingMethods"></span></p>
+    <p><strong>Phone:</strong> <span id="producerPhone"></span></p>
+    <p><strong>Email:</strong> <span id="producerEmail"></span></p>
+
+    <br>
+
+    <a href="products.html" class="hero-button">Back to Products</a>
+</section>
+
+<!-- JS FILES -->
+<script src="static/producer_details.js"></script>
+<script src="static/logout.js"></script>
+
+</body>
+</html>

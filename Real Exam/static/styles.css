@@ -14,6 +14,9 @@ img {
     height: auto;
     display: block;
 }
+h1{
+    text-align: center;
+}
 
 h2, h3 {
     color: #2d6a4f;
@@ -23,16 +26,21 @@ h2, h3 {
 /* ============================================
    NAVIGATION BAR
 ================================================ */
+/* ========================
+   FIXED & CLEAN NAVBAR
+========================= */
 .navbar {
     width: 100%;
     background: #2d6a4f;
     padding: 12px 30px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;      /* allows wrapping */
     position: sticky;
     top: 0;
     z-index: 1000;
+    box-sizing: border-box;
 }
 
 .logo {
@@ -44,18 +52,15 @@ h2, h3 {
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 20px;
-}
-
-.nav-links li {
-    display: inline-block;
+    gap: 15px;   /* ✅ smaller spacing */
+    flex-wrap: wrap;  /* ✅ ensures it doesn't overflow */
 }
 
 .nav-links a {
     text-decoration: none;
     color: white;
     background: #40916c;
-    padding: 8px 18px;
+    padding: 8px 10px;
     border-radius: 6px;
     transition: 0.3s;
 }
@@ -63,6 +68,34 @@ h2, h3 {
 .nav-links a:hover {
     background: #1b4332;
 }
+
+#welcomeUser {
+    color: white;
+    font-size: 16px;
+    background: #40916c;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-left: 15px;
+}
+
+.logout-btn {
+    margin-left: 8px;
+    padding: 8px 16px;
+    background: crimson;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background: darkred;
+}
+
+.logout-btn {
+    margin-left: 0px;
+}
+
 
 #welcomeUser {
     color: white;
@@ -118,12 +151,13 @@ h2, h3 {
 }
 
 .hero-button {
-    margin-top: 20px;
-    padding: 12px 25px;
     background: #2d6a4f;
+    padding: 12px 25px;
     color: white;
     text-decoration: none;
     border-radius: 6px;
+    margin-top: 20px;
+    font-size: 18px;
 }
 .hero-button:hover {
     background: #1b4332;

@@ -5,7 +5,7 @@
     <title>Greenfield Local Hub</title>
     <link rel="stylesheet" href="static/styles.css">
 
-    <!-- Supabase client --->
+    <!-- Supabase client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
@@ -16,22 +16,57 @@
     <div class="logo">Greenfield Hub</div>
 
     <ul class="nav-links">
-        <li>index.htmlHome</a></li>
-        <li>products.htmlProducts</a></li>
-        <li>checkout.htmlCheckout</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="checkout.html">Checkout</a></li>
+        <li><a href="order_history.html">Order History</a></li>
     </ul>
 
     <span id="welcomeUser"></span>
-    <button class="logout-btn" onclick="logout()">Logout</button>
+    <button class="logout-btn" id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
 </nav>
 
 <!-- HERO SECTION -->
 <section class="hero">
-    static/images/farm_home_background.jpg
+    <img src="static/images/farm_home_background.jpg" class="hero-img" alt="Farm background">
     <div class="hero-overlay">
         <h1>Fresh. Local. Sustainable.</h1>
         <p>Supporting local farmers and producers across Greenfield.</p>
-        products.htmlShop Now</a>
+        <a href="products.html" class="hero-button">Shop Now</a>
+        <a href="producer_login.html" class="hero-button">Producer Portal</a>
+    </div>
+</section>
+
+<!-- FEATURED PRODUCTS SECTION -->
+<section class="products">
+    <h2>Featured Products</h2>
+
+    <div class="product-grid">
+
+        <!-- PRODUCT 1 -->
+        <div class="product-card">
+            <img src="static/images/apple_juice.jpg" alt="Apple Juice">
+            <h3>Apple Juice (1L)</h3>
+            <p>Freshly pressed apple juice from Sam's Orchard.</p>
+            products.htmlOrder Now</a>
+        </div>
+
+        <!-- PRODUCT 2 -->
+        <div class="product-card">
+            <img src="static/images/Free Range Eggs.jpg" alt="Eggs">
+            <h3>Free-Range Eggs (12 pack)</h3>
+            <p>Organic free‑range eggs from Hilltop Farms.</p>
+            products.htmlOrder Now</a>
+        </div>
+
+        <!-- PRODUCT 3 -->
+        <div class="product-card">
+            <img src="static/images/milk.jpg" alt="Milk">
+            <h3>Whole Milk (1L)</h3>
+            <p>Fresh whole milk from Riverdale Dairy.</p>
+            <a href="products.html" class="hero-button">Order Now</a>
+        </div>
+
     </div>
 </section>
 
@@ -41,24 +76,30 @@
 
     <div class="producer-grid">
         <div class="producer-card">
-            static/images/sam_orchard.jpg
+            <img src="static/images/Sams Orchard.jpg" alt="Sam's Orchard">
             <h3>Sam's Orchard</h3>
             <p>Fresh fruit & juices</p>
+            <a href="producer_details.html?producerid=1">View Producer</a>
         </div>
 
         <div class="producer-card">
-            static/images/hilltop_farms.jpg
+            <img src="static/images/Hilltop Farms.jpg" alt="Hilltop Farms">
             <h3>Hilltop Farms</h3>
             <p>Organic vegetables</p>
+            <a href="producer_details.html?producerid=1">View Producer</a>
         </div>
 
         <div class="producer-card">
-            static/images/riverdale_dairy.jpg
+            <img src="static/images/Riverdale Dairy.jpg" alt="Riverdale Diary">
             <h3>Riverdale Dairy</h3>
             <p>Milk & cheese</p>
+            <a href="producer_details.html?producerid=1">View Producer</a>
         </div>
     </div>
 </section>
+
+
+
 
 <!-- LOGIN POPUP -->
 <div id="loginPopup" class="popup-overlay">
@@ -71,6 +112,11 @@
         <button onclick="popupLogin()">Login</button>
 
         <p id="popupLoginMessage"></p>
+
+        <p style="margin-top: 15px;">
+            Not registered?
+            <a href="register.html" class="popup-register-link">Create an account</a>
+        </p>
     </div>
 </div>
 
@@ -84,13 +130,13 @@ const supabaseClient = supabase.createClient(
 // Load session
 window.customer = JSON.parse(localStorage.getItem("customer"));
 
-// On load: show popup if not logged in
+// Show popup or welcome
 window.onload = function () {
     if (!window.customer) {
         document.getElementById("loginPopup").style.display = "flex";
     } else {
-        document.getElementById("welcomeUser").textContent =
-            "Welcome, " + window.customer.firstname;
+        document.getElementById("welcomeUser").textContent = "Welcome, " + window.customer.firstname;
+        document.getElementById("logoutBtn").style.display = "inline-block";
     }
 };
 
@@ -106,7 +152,7 @@ async function popupLogin() {
         return;
     }
 
-    const hashed = btoa(password); // encode password prototype-style
+    const hashed = btoa(password);
 
     const { data, error } = await supabaseClient
         .from("tbl_customer")
@@ -129,12 +175,14 @@ async function popupLogin() {
 
     setTimeout(() => {
         document.getElementById("loginPopup").style.display = "none";
-        document.getElementById("welcomeUser").textContent =
-            "Welcome, " + data.firstname;
+        document.getElementById("welcomeUser").textContent = "Welcome, " + data.firstname;
+        document.getElementById("logoutBtn").style.display = "inline-block";
     }, 500);
 }
 </script>
 
+
 <script src="static/logout.js"></script>
+
 </body>
 </html>

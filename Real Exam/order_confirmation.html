@@ -4,21 +4,16 @@
     <meta charset="UTF-8">
     <title>Order Confirmation – Greenfield Local Hub</title>
     <link rel="stylesheet" href="static/styles.css">
-
-    <!-- Supabase client --->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
 
-<!-- NAVIGATION BAR -->
 <nav class="navbar">
     <div class="logo">Greenfield Hub</div>
 
     <ul class="nav-links">
-        <li>index.htmlHome</a></li>
-        <li>products.htmlProducts</a></li>
-        <li>checkout.htmlCheckout</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
     </ul>
 
     <button class="logout-btn" onclick="logout()">Logout</button>
@@ -30,25 +25,26 @@
 
     <p id="orderIDText"></p>
 
-    products.htmlContinue Shopping</a>
+    <div style="margin-top: 25px;">
+        <li><a href="order_history.html" class="hero-button">
+            View My Orders</li>
+        </a>
+
+        <br><br>
+
+        <li><a href="index.html" class="hero-button">
+            Back to Home
+        </a></li>
+    </div>
 </section>
 
-<!-- LOAD CUSTOMER SESSION (optional) -->
-<script>
-window.customer = JSON.parse(localStorage.getItem("customer"));
-</script>
-
-<!-- GET ORDER ID FROM URL -->
 <script>
 const params = new URLSearchParams(window.location.search);
-const id = params.get("orderid");
+const orderId = params.get("orderid");
 
-if (id) {
+if (orderId) {
     document.getElementById("orderIDText").innerText =
-        "Your Order Number: #" + id;
-} else {
-    document.getElementById("orderIDText").innerText =
-        "Order number not found.";
+        "Your Order Number: #" + orderId;
 }
 </script>
 

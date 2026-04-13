@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Products – Greenfield Local Hub</title>
+    <link rel="stylesheet" href="static/styles.css">
+
+    <!-- Supabase client --->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+<!-- NAVIGATION BAR -->
+<nav class="navbar">
+    <div class="logo">Greenfield Hub</div>
+
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="checkout.html">Checkout</a></li>
+    </ul>
+        
+
+    <span id="welcomeUser"></span>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+</nav>
+
+<!-- PRODUCTS SECTION -->
+<section class="products">
+    <h2>Featured Products</h2>
+
+    <div class="product-grid">
+
+        <!-- PRODUCT 1 -->
+        <div class="product-card">
+            <img src="static/images/apple_juice.jpg" alt="Apple Juice">
+            <h3>Apple Juice (1L)</h3>
+            <p>Producer: Sam’s Orchard</p>
+            <button onclick="addToCart(1)">Add to Cart</button>
+        </div>
+
+        <!-- PRODUCT 2 -->
+        <div class="product-card">
+            <img src="static/images/Free Range Eggs.jpg" alt="Eggs">
+            <h3>Free‑Range Eggs (12 pack)</h3>
+            <p>Producer: Hilltop Farms</p>
+            <button onclick="addToCart(2)">Add to Cart</button>
+        </div>
+
+        <!-- PRODUCT 3 -->
+        <div class="product-card">
+            <img src="static/images/carrots.jpg" alt="Carrots">
+            <h3>Organic Carrots (1kg)</h3>
+            <p>Producer: Hilltop Farms</p>
+            <button onclick="addToCart(3)">Add to Cart</button>
+        </div>
+
+        <!-- PRODUCT 4 -->
+        <div class="product-card">
+            <img src="static/images/milk.jpg" alt="Milk">
+            <h3>Whole Milk (1L)</h3>
+            <p>Producer: Riverdale Dairy</p>
+            <button onclick="addToCart(4)">Add to Cart</button>
+        </div>
+
+        <!-- PRODUCT 5 -->
+        <div class="product-card">
+            <img src="static/images/cheese.jpg" alt="Cheese">
+            <h3>Cheddar Cheese (200g)</h3>
+            <p>Producer: Riverdale Dairy</p>
+            <button onclick="addToCart(5)">Add to Cart</button>
+        </div>
+
+    </div>
+</section>
+
+<!-- CART SECTION -->
+<section class="cart-section">
+    <h2>Your Cart</h2>
+
+    <div id="cart-items">
+        <p>Your cart is empty.</p>
+    </div>
+
+    <button id="checkoutBtn" onclick="goToCheckout()">Proceed to Checkout</button>
+</section>
+
+<!-- CUSTOMER SESSION LOADER -->
+<script>
+window.customer = JSON.parse(localStorage.getItem("customer"));
+if (window.customer && window.customer.firstname) {
+    document.getElementById("welcomeUser").textContent =
+        "Welcome, " + window.customer.firstname;
+}
+</script>
+
+<!-- JS FILES -->
+<script src="static/products.js"></script>
+<script src="static/logout.js"></script>
+</body>
+</html>
+
+
+

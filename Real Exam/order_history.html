@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Orders – Greenfield Local Hub</title>
+    <link rel="stylesheet" href="static/styles.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">Greenfield Hub</div>
+
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+    </ul>
+
+    <button class="logout-btn" onclick="logout()">Logout</button>
+</nav>
+
+<section class="checkout-container">
+    <h2>My Order History</h2>
+    <div id="orderHistory"></div>
+</section>
+
+<script>
+const supabaseClient = supabase.createClient(
+    "https://meafqlorjwyxnpfiqvck.supabase.co",
+    "sb_publishable_6qa6v8B1c51rNZbxY7wj6A_78MbwqED"
+);
+
+const customer = JSON.parse(localStorage.getItem("customer"));
+if (!customer) {
+    window.location.href = "index.html";
+}
+
+async function loadOrderHistory() {
+    const { data: orders, error } = await supabaseClient
+        .from("tbl_order")
+        .select(`
+            orderid,
+            orderdate,
+            orderstatus,
+            tbl_orderitem (
+                orderitemquantity,
+                orderproductcost,
+                tbl_product (product_name)
+            )
+        `)
+        .eq("customerid", customer.customer_id)
+        .order("orderid", { ascending: false });
+
+    const container = document.getElementById("orderHistory");
+
+    if (!orders || orders.length === 0) {
+        container.innerHTML = "<p>No orders found.</p>";
+        return;
+    }
+
+    let html = "";
+
+    orders.forEach(order => {
+        html += `
+            <div class="checkout-item">
+                <h3>Order #${order.orderid}</h3>
+                <p>Date: ${order.orderdate}</p>
+                <p>Status: ${order.orderstatus}</p>
+                <hr>
+        `;
+
+        order.tbl_orderitem.forEach(item => {
+            html += `
+                <p>
+                    ${item.tbl_product.product_name} ×
+                    ${item.orderitemquantity}
+                </p>
+            `;
+        });
+
+        html += "</div>";
+    });
+
+    container.innerHTML = html;
+}
+
+loadOrderHistory();
+</script>
+
+<script src="static/logout.js"></script>
+</body>
+</html>
