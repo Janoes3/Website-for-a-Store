@@ -1,44 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Create Customer Account – GLH</title>
-    <link rel="stylesheet" href="static/styles.css">
+  <meta charset="UTF-8">
+  <title>Create Account – Greenfield Local Hub</title>
+  <link rel="stylesheet" href="static/styles.css">
 
-    <!-- Supabase client --->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="static/supabaseClient.js"></script>
 </head>
 
 <body>
 
-<header>
-    <h1>Create Your Account</h1>
-</header>
-
 <section class="login-container">
-    <div class="login-box">
-        <h2>Register</h2>
+  <div class="login-box">
+    <h2>Create Customer Account</h2>
 
-        <input type="text" id="firstName" placeholder="First Name">
-        <input type="text" id="lastName" placeholder="Last Name">
-        <input type="email" id="email" placeholder="Email">
-        <input type="text" id="address" placeholder="Address">
-        <input type="text" id="postcode" placeholder="Postcode">
-        <input type="password" id="password" placeholder="Password">
-        <input type="password" id="confirmPassword" placeholder="Confirm Password">
+    <input type="text" id="firstName" placeholder="First Name">
+    <input type="text" id="lastName" placeholder="Last Name">
+    <input type="text" id="address" placeholder="Address">
+    <input type="text" id="postcode" placeholder="Postcode">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <input type="password" id="confirmPassword" placeholder="Confirm Password">
 
-        <button onclick="registerCustomer()">Create Account</button>
+    <button onclick="registerCustomer()">Register</button>
+    <p id="registerMessage"></p>
 
-        <p id="registerMessage"></p>
-
-        <p>
-            Already have an account?
-            <a href="login.html">Login here</a>
-        </p>
-    </div>
+    <p>
+      Already have an account?
+      <a href="login.html">Login here</a>
+    </p>
+  </div>
 </section>
 
+<!-- Page JS -->
 <script src="static/register.js"></script>
+
 </body>
 </html>
-

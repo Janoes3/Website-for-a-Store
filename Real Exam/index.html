@@ -1,187 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Greenfield Local Hub</title>
-    <link rel="stylesheet" href="static/styles.css">
+  <meta charset="UTF-8">
+  <title>Greenfield Local Hub</title>
 
-    <!-- Supabase client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Styles -->
+  <link rel="stylesheet" href="static/styles.css">
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="static/supabaseClient.js"></script>
 </head>
 
 <body>
 
-<!-- NAVIGATION BAR -->
-<nav class="navbar">
+<!-- ================= LOGIN POPUP (ALWAYS FIRST) ================= -->
+<div id="loginPopup" class="popup-overlay">
+  <div class="popup-box">
+    <h2>Login</h2>
+
+    <input type="email" id="popupEmail" placeholder="Email">
+    <input type="password" id="popupPassword" placeholder="Password">
+
+    <button onclick="popupLogin()">Login</button>
+    <p id="popupLoginMessage"></p>
+
+    <p><a href="register.html">Create an account</a></p>
+    <p><a href="producer_login.html">Login as producer</a></p>
+  </div>
+</div>
+
+<!-- ================= SITE CONTENT (LOCKED) ================= -->
+<div id="siteContent" style="display:none;">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
     <div class="logo">Greenfield Hub</div>
 
     <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="products.html">Products</a></li>
-        <li><a href="checkout.html">Checkout</a></li>
-        <li><a href="order_history.html">Order History</a></li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="order_history.html">My Orders</a></li>
     </ul>
 
-    <span id="welcomeUser"></span>
-    <button class="logout-btn" id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
-</nav>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </nav>
 
-<!-- HERO SECTION -->
-<section class="hero">
-    <img src="static/images/farm_home_background.jpg" class="hero-img" alt="Farm background">
+  <!-- HERO -->
+  <section class="hero">
+    <img src="static/images/farm_home_background.jpg"
+         class="hero-img"
+         alt="Farm background">
+
     <div class="hero-overlay">
-        <h1>Fresh. Local. Sustainable.</h1>
-        <p>Supporting local farmers and producers across Greenfield.</p>
-        <a href="products.html" class="hero-button">Shop Now</a>
-        <a href="producer_login.html" class="hero-button">Producer Portal</a>
+      <h1>Fresh. Local. Sustainable.</h1>
+      <p>Supporting local farmers and producers across Greenfield.</p>
+      <a href="products.html" class="hero-button">Shop Now</a>
+      <a href="producer_login.html" class="hero-button">Producer Portal</a>
     </div>
-</section>
+  </section>
 
-<!-- FEATURED PRODUCTS SECTION -->
-<section class="products">
+  <!-- FEATURED PRODUCTS -->
+  <section class="products">
     <h2>Featured Products</h2>
 
-    <div class="product-grid">
-
-        <!-- PRODUCT 1 -->
-        <div class="product-card">
-            <img src="static/images/apple_juice.jpg" alt="Apple Juice">
-            <h3>Apple Juice (1L)</h3>
-            <p>Freshly pressed apple juice from Sam's Orchard.</p>
-            products.htmlOrder Now</a>
-        </div>
-
-        <!-- PRODUCT 2 -->
-        <div class="product-card">
-            <img src="static/images/Free Range Eggs.jpg" alt="Eggs">
-            <h3>Free-Range Eggs (12 pack)</h3>
-            <p>Organic free‑range eggs from Hilltop Farms.</p>
-            products.htmlOrder Now</a>
-        </div>
-
-        <!-- PRODUCT 3 -->
-        <div class="product-card">
-            <img src="static/images/milk.jpg" alt="Milk">
-            <h3>Whole Milk (1L)</h3>
-            <p>Fresh whole milk from Riverdale Dairy.</p>
-            <a href="products.html" class="hero-button">Order Now</a>
-        </div>
-
+    <div class="product-grid" id="featuredProducts">
+      <p>Loading products...</p>
     </div>
-</section>
+  </section>
 
-<!-- PRODUCER SECTION -->
-<section class="producers">
-    <h2>Our Local Producers</h2>
-
-    <div class="producer-grid">
-        <div class="producer-card">
-            <img src="static/images/Sams Orchard.jpg" alt="Sam's Orchard">
-            <h3>Sam's Orchard</h3>
-            <p>Fresh fruit & juices</p>
-            <a href="producer_details.html?producerid=1">View Producer</a>
-        </div>
-
-        <div class="producer-card">
-            <img src="static/images/Hilltop Farms.jpg" alt="Hilltop Farms">
-            <h3>Hilltop Farms</h3>
-            <p>Organic vegetables</p>
-            <a href="producer_details.html?producerid=1">View Producer</a>
-        </div>
-
-        <div class="producer-card">
-            <img src="static/images/Riverdale Dairy.jpg" alt="Riverdale Diary">
-            <h3>Riverdale Dairy</h3>
-            <p>Milk & cheese</p>
-            <a href="producer_details.html?producerid=1">View Producer</a>
-        </div>
-    </div>
-</section>
-
-
-
-
-<!-- LOGIN POPUP -->
-<div id="loginPopup" class="popup-overlay">
-    <div class="popup-box">
-        <h2>Login</h2>
-
-        <input type="email" id="popupEmail" placeholder="Email">
-        <input type="password" id="popupPassword" placeholder="Password">
-
-        <button onclick="popupLogin()">Login</button>
-
-        <p id="popupLoginMessage"></p>
-
-        <p style="margin-top: 15px;">
-            Not registered?
-            <a href="register.html" class="popup-register-link">Create an account</a>
-        </p>
-    </div>
 </div>
 
-<!-- POPUP LOGIN LOGIC -->
+<!-- ================= PAGE LOGIC ================= -->
 <script>
-const supabaseClient = supabase.createClient(
-    "https://meafqlorjwyxnpfiqvck.supabase.co",
-    "sb_publishable_6qa6v8B1c51rNZbxY7wj6A_78MbwqED"
-);
+async function initIndex() {
+  const { data: { user } } = await supabaseClient.auth.getUser();
 
-// Load session
-window.customer = JSON.parse(localStorage.getItem("customer"));
+  // ✅ FORCE LOGIN FIRST
+  if (!user) {
+    document.getElementById("loginPopup").style.display = "flex";
+    document.getElementById("siteContent").style.display = "none";
+    return;
+  }
 
-// Show popup or welcome
-window.onload = function () {
-    if (!window.customer) {
-        document.getElementById("loginPopup").style.display = "flex";
-    } else {
-        document.getElementById("welcomeUser").textContent = "Welcome, " + window.customer.firstname;
-        document.getElementById("logoutBtn").style.display = "inline-block";
-    }
-};
+  // ✅ UNLOCK SITE AFTER LOGIN
+  document.getElementById("loginPopup").style.display = "none";
+  document.getElementById("siteContent").style.display = "block";
 
-// LOGIN FUNCTION
-async function popupLogin() {
-    const email = document.getElementById("popupEmail").value.trim();
-    const password = document.getElementById("popupPassword").value.trim();
-    const msg = document.getElementById("popupLoginMessage");
-
-    if (!email || !password) {
-        msg.textContent = "Please fill all fields.";
-        msg.style.color = "red";
-        return;
-    }
-
-    const hashed = btoa(password);
-
-    const { data, error } = await supabaseClient
-        .from("tbl_customer")
-        .select("*")
-        .eq("email", email)
-        .eq("passwordhash", hashed)
-        .single();
-
-    if (error || !data) {
-        msg.textContent = "Invalid login.";
-        msg.style.color = "red";
-        return;
-    }
-
-    localStorage.setItem("customer", JSON.stringify(data));
-    window.customer = data;
-
-    msg.textContent = "Login successful!";
-    msg.style.color = "green";
-
-    setTimeout(() => {
-        document.getElementById("loginPopup").style.display = "none";
-        document.getElementById("welcomeUser").textContent = "Welcome, " + data.firstname;
-        document.getElementById("logoutBtn").style.display = "inline-block";
-    }, 500);
+  loadFeaturedProducts();
 }
+
+async function loadFeaturedProducts() {
+  const container = document.getElementById("featuredProducts");
+
+  const { data, error } = await supabaseClient
+    .from("tbl_product")
+    .select("product_name, productimage")
+    .order("productid", { ascending: false })
+    .limit(3);
+
+  if (error || !data || data.length === 0) {
+    container.innerHTML = "<p>No products available.</p>";
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(product => {
+    const card = document.createElement("div");
+    card.className = "product-card";
+    card.onclick = () => window.location.href = "products.html";
+
+    const img = document.createElement("img");
+    img.src = product.productimage;
+    img.alt = product.product_name;
+
+    const name = document.createElement("h3");
+    name.textContent = product.product_name;
+
+    card.appendChild(img);
+    card.appendChild(name);
+    container.appendChild(card);
+  });
+}
+
+window.addEventListener("load", initIndex);
 </script>
 
-
+<!-- REQUIRED SCRIPTS -->
+<script src="static/login.js"></script>
 <script src="static/logout.js"></script>
 
 </body>

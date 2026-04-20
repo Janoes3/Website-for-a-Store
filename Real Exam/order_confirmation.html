@@ -1,53 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Order Confirmation – Greenfield Local Hub</title>
-    <link rel="stylesheet" href="static/styles.css">
+  <meta charset="UTF-8">
+  <title>Order Confirmation – Greenfield Local Hub</title>
+  <link rel="stylesheet" href="static/styles.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="static/supabaseClient.js"></script>
 </head>
 
 <body>
 
 <nav class="navbar">
-    <div class="logo">Greenfield Hub</div>
+  <div class="logo">Greenfield Hub</div>
 
-    <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="products.html">Products</a></li>
-    </ul>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Products</a></li>
+  </ul>
 
-    <button class="logout-btn" onclick="logout()">Logout</button>
+  <button class="logout-btn" onclick="logout()">Logout</button>
 </nav>
 
 <section class="confirmation-container">
-    <h1>Thank You for Your Order!</h1>
-    <p>Your order has been successfully placed.</p>
+  <h1>Thank You for Your Order!</h1>
+  <p>Your order has been successfully placed.</p>
 
-    <p id="orderIDText"></p>
+  <p id="orderIDText"></p>
 
-    <div style="margin-top: 25px;">
-        <li><a href="order_history.html" class="hero-button">
-            View My Orders</li>
-        </a>
-
-        <br><br>
-
-        <li><a href="index.html" class="hero-button">
-            Back to Home
-        </a></li>
-    </div>
+  <div style="margin-top: 25px;">
+    <a href="order_history.html" class="hero-button">View My Orders</a>
+    <br><br>
+    <a href="index.html" class="hero-button">Back to Home</a>
+  </div>
 </section>
 
-<script>
-const params = new URLSearchParams(window.location.search);
-const orderId = params.get("orderid");
-
-if (orderId) {
-    document.getElementById("orderIDText").innerText =
-        "Your Order Number: #" + orderId;
-}
-</script>
-
+<script src="static/order_confirmation.js"></script>
 <script src="static/logout.js"></script>
+
 </body>
 </html>

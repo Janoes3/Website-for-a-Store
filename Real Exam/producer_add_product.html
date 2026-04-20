@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Orders – Greenfield Local Hub</title>
+  <title>Add Product – Producer Dashboard</title>
   <link rel="stylesheet" href="static/styles.css">
 
   <!-- Supabase -->
@@ -14,23 +14,26 @@
 
 <nav class="navbar">
   <div class="logo">Greenfield Hub</div>
-
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="products.html">Products</a></li>
+    <li><a href="producer_dashboard.html">Dashboard</a></li>
   </ul>
-
   <button class="logout-btn" onclick="logout()">Logout</button>
 </nav>
 
-<section class="checkout-container">
-  <h2>My Order History</h2>
+<section class="login-container">
+  <div class="login-box">
+    <h2>Add New Product</h2>
 
-  <!-- Orders will render here -->
-  <div id="orderHistory"></div>
+    <input type="text" id="productName" placeholder="Product Name">
+    <input type="file" id="productImage" accept="image/*">
+    <button onclick="addProduct()">Save Product</button>
+
+    <p id="addProductMessage"></p>
+  </div>
 </section>
 
-<script src="static/order_history.js"></script>
+<!-- Page JS -->
+<script src="static/producer_add_product.js"></script>
 <script src="static/logout.js"></script>
 
 </body>

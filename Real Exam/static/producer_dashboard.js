@@ -1,231 +1,165 @@
-// Confirms that the producer dashboard script has loaded successfully.
-// This is useful for debugging and testing during development.
 console.log("producer_dashboard.js loaded");
 
-// -----------------------------------------------------
-// SUPABASE CONNECTION
-// -----------------------------------------------------
-// Creates a connection to the Supabase backend.
-// This allows the producer dashboard to retrieve and update
-// products, stock, orders, and stock movement data.
-const supabaseClient = supabase.createClient(
-    "https://meafqlorjwyxnpfiqvck.supabase.co",
-    "sb_publishable_6qa6v8B1c51rNZbxY7wj6A_78MbwqED"
-);
+let producer = null;
 
 // -----------------------------------------------------
-// PRODUCER SESSION VALIDATION
+// INIT PRODUCER (AUTH + PROFILE)
 // -----------------------------------------------------
-// Retrieves the logged-in producer from localStorage.
-// This ensures only authenticated producers can access the dashboard.
-window.producer = JSON.parse(localStorage.getItem("producer"));
+async function initProducer() {
+  const { data: { user } } = await window.supabaseClient.auth.getUser();
 
-// If no valid producer session exists, redirect to producer login.
-// This prevents customers or unauthorised users accessing producer data.
-if (!window.producer || !window.producer.producerid) {
+  if (!user) {
     alert("Please log in as a producer.");
     window.location.href = "producer_login.html";
+    return;
+  }
+
+  const { data, error } = await window.supabaseClient
+    .from("tbl_producer")
+    .select("*")
+    .eq("auth_user_id", user.id)
+    .single();
+
+  if (error || !data) {
+    alert("Producer profile not found.");
+    window.location.href = "index.html";
+    return;
+  }
+
+  producer = data;
+
+  document.getElementById("producerWelcome").innerText =
+    "Welcome, " + producer.producername;
 }
 
 // -----------------------------------------------------
-// DISPLAY PRODUCER WELCOME MESSAGE
+// LOAD PRODUCER PRODUCTS
 // -----------------------------------------------------
-// Displays a personalised welcome message using the producer’s name.
-// This confirms to the user that they are logged in correctly.
-document.getElementById("producerWelcome").innerText =
-    "Welcome, " + window.producer.producername;
-
-
-// -----------------------------------------------------
-// 1. LOAD PRODUCER PRODUCTS
-// -----------------------------------------------------
-// Loads all products belonging to the logged-in producer
-// and displays them along with current stock levels.
 async function loadProducerProducts() {
-    const container = document.getElementById("producerProducts");
+  const container = document.getElementById("producerProducts");
 
-    // Retrieves products where the producer ID matches the logged-in producer.
-    const { data: products, error } = await supabaseClient
-        .from("tbl_product")
-        .select("*")
-        .eq("producerid", window.producer.producerid);
+  const { data: products } = await window.supabaseClient
+    .from("tbl_product")
+    .select("*")
+    .eq("producerid", producer.producerid);
 
-    // Displays an error message if the query fails.
-    if (error) {
-        container.innerHTML = "<p>Error loading products.</p>";
-        console.error(error);
-        return;
-    }
+  if (!products || products.length === 0) {
+    container.innerHTML = "<p>You have no products listed.</p>";
+    return;
+  }
 
-    // Displays a message if the producer has no products.
-    if (!products || products.length === 0) {
-        container.innerHTML = "<p>You have no products listed.</p>";
-        return;
-    }
+  let html = "";
 
-    let html = "";
+  for (const p of products) {
+    const { data: stock } = await window.supabaseClient
+      .from("tbl_stock")
+      .select("stockquantity")
+      .eq("productid", p.productid)
+      .maybeSingle();
 
-    // Loops through each product to display details and stock controls.
-    for (const p of products) {
+    const qty = stock ? stock.stockquantity : 0;
 
-        // Retrieves the current stock level for each product.
-        const { data: stock } = await supabaseClient
-            .from("tbl_stock")
-            .select("stockquantity")
-            .eq("productid", p.productid)
-            .eq("producerid", window.producer.producerid)
-            .maybeSingle();
+    html += `
+      <div class="product-item">
+        <strong>${p.product_name}</strong><br>
+        <img src="${p.productimage}" alt="${p.product_name}" width="120"><br><br>
 
-        // Defaults stock to 0 if no stock record exists.
-        const currentStock = stock ? stock.stockquantity : 0;
+        <p>Current Stock: <b>${qty}</b></p>
+        <input type="number" id="stock_${p.productid}" value="${qty}" min="0">
+        <button onclick="updateStock(${p.productid})">Save</button>
+      </div>
+    `;
+  }
 
-        // Generates HTML for each product, including a stock update input.
-        html += `
-            <div class="product-item">
-                <strong>${p.product_name}</strong><br>
-                <img src="static/images/${p.productimage}" alt="${p.product_name}"><br><br>
-
-                <p>Current Stock: <b>${currentStock}</b></p>
-
-                <label>Update Stock:</label><br>
-                <input type="number" id="stock_${p.productid}" value="${currentStock}" min="0">
-                <button class="update-stock-btn" onclick="updateStock(${p.productid})">
-                    Save
-                </button>
-            </div>
-        `;
-    }
-
-    // Displays all generated product HTML in the dashboard.
-    container.innerHTML = html;
+  container.innerHTML = html;
 }
 
-
 // -----------------------------------------------------
-// 2. UPDATE STOCK & RECORD STOCK MOVEMENT
+// UPDATE STOCK
 // -----------------------------------------------------
-// Updates the stock level for a product and records the change
-// in the stock movement table for traceability.
 async function updateStock(productID) {
+  const value = parseInt(document.getElementById("stock_" + productID).value);
 
-    // Retrieves the new stock value entered by the producer.
-    const stockInput = document.getElementById("stock_" + productID);
-    const newStockValue = parseInt(stockInput.value);
+  if (isNaN(value) || value < 0) {
+    alert("Invalid stock number");
+    return;
+  }
 
-    // Validates the stock input to prevent invalid values.
-    if (isNaN(newStockValue) || newStockValue < 0) {
-        alert("Invalid stock number");
-        return;
-    }
+  const { data: stock } = await window.supabaseClient
+    .from("tbl_stock")
+    .select("*")
+    .eq("productid", productID)
+    .maybeSingle();
 
-    // Retrieves the existing stock record for the product.
-    const { data: oldStockData } = await supabaseClient
-        .from("tbl_stock")
-        .select("*")
-        .eq("productid", productID)
-        .eq("producerid", window.producer.producerid)
-        .maybeSingle();
+  if (!stock) {
+    await window.supabaseClient.from("tbl_stock").insert({
+      productid: productID,
+      stockquantity: value
+    });
+  } else {
+    await window.supabaseClient
+      .from("tbl_stock")
+      .update({ stockquantity: value })
+      .eq("productid", productID);
+  }
 
-    // Stores the previous stock level for comparison.
-    let oldStock = 0;
-    if (oldStockData) oldStock = oldStockData.stockquantity;
-
-    // If no stock record exists, create one.
-    if (!oldStockData) {
-        await supabaseClient
-            .from("tbl_stock")
-            .insert([{ 
-                productid: productID, 
-                producerid: window.producer.producerid, 
-                stockquantity: newStockValue 
-            }]);
-    } 
-    // Otherwise, update the existing stock record.
-    else {
-        await supabaseClient
-            .from("tbl_stock")
-            .update({ stockquantity: newStockValue })
-            .eq("productid", productID)
-            .eq("producerid", window.producer.producerid);
-    }
-
-    // -------------------------------------------------
-    // RECORD STOCK MOVEMENT (AUDIT TRAIL)
-    // -------------------------------------------------
-    // Determines whether stock was increased or decreased.
-    const movementType = newStockValue > oldStock ? "IN" : "OUT";
-    const movementQuantity = Math.abs(newStockValue - oldStock);
-
-    // Inserts a stock movement record for traceability.
-    await supabaseClient
-        .from("tbl_stockmovement")
-        .insert([{
-            producerid: window.producer.producerid,
-            productid: productID,
-            movementtype: movementType,
-            quantity: movementQuantity,
-            movementreason: "Manual stock update",
-            newstocklevel: newStockValue,
-            performedby: window.producer.producername
-        }]);
-
-    // Confirms stock update and refreshes the dashboard.
-    alert("Stock updated!");
-    loadProducerProducts();
+  alert("Stock updated!");
+  loadProducerProducts();
 }
 
-
 // -----------------------------------------------------
-// 3. LOAD PRODUCER ORDERS
+// LOAD PRODUCER ORDERS
 // -----------------------------------------------------
-// Displays all orders that include products belonging to the producer.
 async function loadProducerOrders() {
-    const container = document.getElementById("producerOrders");
+  const container = document.getElementById("producerOrders");
 
-    // Retrieves order items with related order and product data.
-    const { data: items, error } = await supabaseClient
-        .from("tbl_orderitem")
-        .select(`
-            orderitemid,
-            orderitemquantity,
-            tbl_order(orderid, orderdate, orderstatus),
-            tbl_product(productid, product_name, producerid)
-        `);
+  const { data: items, error } = await window.supabaseClient
+    .from("tbl_orderitem")
+    .select(`
+      orderitemquantity,
+      tbl_order (
+        orderid,
+        orderdate,
+        orderstatus
+      ),
+      tbl_product (
+        product_name,
+        producerid
+      )
+    `);
 
-    // Displays an error message if loading orders fails.
-    if (error) {
-        container.innerHTML = "<p>Error loading orders.</p>";
-        console.error(error);
-        return;
-    }
+  if (error || !items) {
+    container.innerHTML = "<p>Error loading orders.</p>";
+    return;
+  }
 
-    let html = "";
+  // ✅ Filter: only items for THIS producer
+  const myItems = items.filter(
+    item =>
+      item.tbl_product &&
+      item.tbl_product.producerid === producer.producerid
+  );
 
-    // Filters orders so the producer only sees their own products.
-    items
-        .filter(i => i.tbl_product.producerid === window.producer.producerid)
-        .forEach(i => {
-            html += `
-                <div class="order-item">
-                    <strong>Order #${i.tbl_order.orderid}</strong><br>
-                    Product: ${i.tbl_product.product_name}<br>
-                    Quantity: ${i.orderitemquantity}<br>
-                    Status: ${i.tbl_order.orderstatus}<br>
-                    Date: ${i.tbl_order.orderdate}<br>
-                </div>
-            `;
-        });
+  if (myItems.length === 0) {
+    container.innerHTML = "<p>No orders yet.</p>";
+    return;
+  }
 
-    // Displays a message if there are no orders.
-    if (html === "") html = "<p>No orders yet.</p>";
-
-    container.innerHTML = html;
+  container.innerHTML = myItems.map(item => `
+    <div class="order-item">
+      <strong>Order #${item.tbl_order.orderid}</strong><br>
+      Product: ${item.tbl_product.product_name}<br>
+      Quantity: ${item.orderitemquantity}<br>
+      Status: ${item.tbl_order.orderstatus}<br>
+      Date: ${new Date(item.tbl_order.orderdate).toLocaleString()}
+    </div>
+  `).join("");
 }
-
-
 // -----------------------------------------------------
-// INITIAL PAGE LOAD
+// INIT PAGE
 // -----------------------------------------------------
-// Loads all producer data when the dashboard opens.
-loadProducerProducts();
-loadProducerOrders();
+(async function init() {
+  await initProducer();
+  await loadProducerProducts();
+  await loadProducerOrders();
+})();

@@ -1,51 +1,43 @@
 console.log("producer_login.js loaded");
 
-// Create Supabase client
-const supabaseClient = supabase.createClient(
-    "https://meafqlorjwyxnpfiqvck.supabase.co",
-    "sb_publishable_6qa6v8B1c51rNZbxY7wj6A_78MbwqED"
-);
+const supabaseClient = window.supabaseClient;
 
-// PRODUCER LOGIN FUNCTION
 async function producerLogin() {
-    const email = document.getElementById("producerEmail").value.trim();
-    const password = document.getElementById("producerPassword").value.trim();
-    const msg = document.getElementById("producerLoginMessage");
+  const email = document.getElementById("producerEmail").value.trim();
+  const password = document.getElementById("producerPassword").value.trim();
+  const msg = document.getElementById("producerLoginMessage");
 
-    if (!email || !password) {
-        msg.textContent = "Please enter all fields.";
-        msg.style.color = "red";
-        return;
-    }
+  msg.textContent = "";
 
-    const hashed = btoa(password);
+  if (!email || !password) {
+    msg.textContent = "Please enter email and password.";
+    return;
+  }
 
-    // Query tbl_producer (all lowercase column names)
-    const { data, error } = await supabaseClient
-        .from("tbl_producer")
-        .select("*")
-        .eq("contactemail", email)
-        .eq("passwordhash", hashed)
-        .single();
+  // 1. Authenticate
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
 
-    if (error || !data) {
-        msg.textContent = "Invalid login details.";
-        msg.style.color = "red";
-        console.error(error);
-        return;
-    }
+  if (error) {
+    msg.textContent = "Invalid login details.";
+    return;
+  }
 
-    // Save producer session
-    localStorage.setItem("producer", JSON.stringify({
-        producerid: data.producerid,
-        producername: data.producername,
-        contactemail: data.contactemail
-    }));
+  // 2. Check producer profile
+  const { data: producer } = await supabaseClient
+    .from("tbl_producer")
+    .select("*")
+    .eq("auth_user_id", data.user.id)
+    .maybeSingle();
 
-    msg.textContent = "Login successful!";
-    msg.style.color = "green";
+  if (!producer) {
+    msg.textContent = "This account is not a producer.";
+    return;
+  }
 
-    setTimeout(() => {
-        window.location.href = "producer_dashboard.html";
-    }, 600);
+  // 3. Store and redirect
+  localStorage.setItem("producer", JSON.stringify(producer));
+  window.location.href = "producer_dashboard.html";
 }

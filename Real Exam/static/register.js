@@ -1,68 +1,63 @@
-console.log("Register.js loaded");
+console.log("register.js loaded");
 
-// Create Supabase client
-const supabaseClient = supabase.createClient(
-    "https://meafqlorjwyxnpfiqvck.supabase.co",
-    "sb_publishable_6qa6v8B1c51rNZbxY7wj6A_78MbwqED"
-);
+const supabaseClient = window.supabaseClient;
 
-// REGISTER FUNCTION
 async function registerCustomer() {
-    const firstName = document.getElementById("firstName").value.trim();
-    const lastName = document.getElementById("lastName").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const address = document.getElementById("address").value.trim();
-    const postcode = document.getElementById("postcode").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const confirmPassword = document.getElementById("confirmPassword").value.trim();
+  const firstName = document.getElementById("firstName").value.trim();
+  const lastName = document.getElementById("lastName").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const postcode = document.getElementById("postcode").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const confirmPassword = document.getElementById("confirmPassword").value.trim();
+  const msg = document.getElementById("registerMessage");
 
-    const msg = document.getElementById("registerMessage");
+  if (!firstName || !lastName || !email || !password) {
+    msg.textContent = "Please fill in all required fields.";
+    msg.style.color = "red";
+    return;
+  }
 
-    // Basic validation
-    if (!firstName || !lastName || !email || !password) {
-        msg.textContent = "Please fill in all required fields.";
-        msg.style.color = "red";
-        return;
-    }
+  if (password !== confirmPassword) {
+    msg.textContent = "Passwords do not match.";
+    msg.style.color = "red";
+    return;
+  }
 
-    if (password !== confirmPassword) {
-        msg.textContent = "Passwords do not match.";
-        msg.style.color = "red";
-        return;
-    }
+  // ✅ Create Supabase Auth user
+  const { data, error } = await supabaseClient.auth.signUp({
+    email,
+    password
+  });
 
-    // Hash password (prototype-friendly)
-    const hashed = btoa(password);
+  if (error) {
+    msg.textContent = error.message;
+    msg.style.color = "red";
+    return;
+  }
 
-    // Insert into Supabase
-    const { data, error } = await supabaseClient
-        .from("tbl_customer")
-        .insert([{
-            firstname: firstName,
-            lastname: lastName,
-            email: email,
-            address: address,
-            postcode: postcode,
-            passwordhash: hashed,
-            loyaltypoints: 0
-        }])
-        .select()
-        .single();
+  // ✅ Create customer profile linked to auth user
+  const { error: insertError } = await supabaseClient
+    .from("tbl_customer")
+    .insert({
+      auth_user_id: data.user.id,
+      firstname: firstName,
+      lastname: lastName,
+      address,
+      postcode,
+      loyaltypoints: 0
+    });
 
-    if (error) {
-        msg.textContent = "Registration failed: " + error.message;
-        msg.style.color = "red";
-        console.error(error);
-        return;
-    }
+  if (insertError) {
+    msg.textContent = "Failed to create customer profile.";
+    msg.style.color = "red";
+    return;
+  }
 
-    msg.textContent = "Account created successfully!";
-    msg.style.color = "green";
+  msg.textContent = "Account created successfully!";
+  msg.style.color = "green";
 
-    console.log("Registration success:", data);
-
-    // Redirect to homepage (popup login will appear)
-    setTimeout(() => {
-        window.location.href = "index.html";
-    }, 1000);
+  setTimeout(() => {
+    window.location.href = "index.html";
+  }, 1000);
 }

@@ -1,61 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Checkout – Greenfield Local Hub</title>
-    <link rel="stylesheet" href="static/styles.css">
+  <meta charset="UTF-8">
+  <title>Checkout – Greenfield Local Hub</title>
+  <link rel="stylesheet" href="static/styles.css">
 
-    <!-- Supabase client --->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="static/supabaseClient.js"></script>
 </head>
 
 <body>
 
-<!-- NAV BAR -->
 <nav class="navbar">
-    <div class="logo">Greenfield Hub</div>
+  <div class="logo">Greenfield Hub</div>
 
-    <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="products.html">Products</a></li>
-    </ul>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="products.html">Products</a></li>
+  </ul>
 
-    <button class="logout-btn" id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
+  <button class="logout-btn" onclick="logout()">Logout</button>
 </nav>
 
-<!-- CHECKOUT CONTAINER -->
 <section class="checkout-container">
-    <h2>Your Order Summary</h2>
+  <h2>Your Order Summary</h2>
 
-    <!-- CART ITEMS -->
-    <div id="checkout-cart-items">
-        <p>Loading your cart...</p>
-    </div>
+  <!-- Cart items injected here -->
+  <div id="checkout-cart-items">
+    <p>Loading your cart...</p>
+  </div>
 
-    <!-- TOTAL -->
-    <h3 id="checkout-total"></h3>
+  <p id="checkoutMessage"></p>
 
-    <!-- PLACE ORDER BUTTON -->
-    <button id="placeOrderBtn" onclick="placeOrder()">Place Order</button>
-
-    <!-- CONFIRMATION MESSAGE -->
-    <p id="checkoutMessage"></p>
-
-    <!-- MY ORDERS -->
-    <div id="myOrders"></div>
+  <!-- IMPORTANT: ID used by JS -->
+  <button id="placeOrderBtn">Place Order</button>
 </section>
 
-<!-- LOAD USER SESSION -->
-<script>
-window.customer = JSON.parse(localStorage.getItem("customer"));
-if (!window.customer || !window.customer.customer_id) {
-    alert("Please log in first.");
-    window.location.href = "index.html";
-}
-</script>
-
-<!-- JS FILES -->
 <script src="static/logout.js"></script>
 <script src="static/checkout.js"></script>
+
 </body>
 </html>
