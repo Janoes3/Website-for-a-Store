@@ -2,56 +2,70 @@ console.log("producer_register.js loaded");
 
 const supabaseClient = window.supabaseClient;
 
-async function registerProducer() {
+function showProducerRegisterMessage(text, type = "error") {
+  const msg = document.getElementById("producerRegisterMessage");
+  if (!msg) return;
+
+  msg.textContent = text;
+  msg.style.color = type === "success" ? "green" : "red";
+}
+
+window.registerProducer = async function registerProducer() {
   const name = document.getElementById("producerName").value.trim();
-  const email = document.getElementById("producerEmail").value.trim();
+  const email = document.getElementById("producerEmail").value.trim(); // auth only
   const phone = document.getElementById("producerPhone").value.trim();
   const address = document.getElementById("producerAddress").value.trim();
-  const desc = document.getElementById("producerDescription").value.trim();
+  const description = document.getElementById("producerDescription").value.trim();
   const methods = document.getElementById("producerMethods").value.trim();
   const password = document.getElementById("producerPassword").value.trim();
-  const msg = document.getElementById("producerRegisterMessage");
+
+  showProducerRegisterMessage("");
 
   if (!name || !email || !password) {
-    msg.textContent = "Please fill all required fields.";
-    msg.style.color = "red";
+    showProducerRegisterMessage("Please fill in all required fields.");
     return;
   }
 
-  // ✅ Create Supabase Auth user
+  if (password.length < 6) {
+    showProducerRegisterMessage("Password must be at least 6 characters.");
+    return;
+  }
+
+  // 1️⃣ Create Auth user
   const { data, error } = await supabaseClient.auth.signUp({
     email,
     password
   });
 
   if (error) {
-    msg.textContent = error.message;
-    msg.style.color = "red";
+    showProducerRegisterMessage(error.message);
     return;
   }
 
-  // ✅ Create producer profile
+  // 2️⃣ Insert producer profile 
   const { error: insertError } = await supabaseClient
     .from("tbl_producer")
     .insert({
       auth_user_id: data.user.id,
       producername: name,
-      producerdescription: desc,
+      producerdescription: description,
       farmingmethods: methods,
       contactphone: phone,
-      address
+      address: address
     });
 
   if (insertError) {
-    msg.textContent = "Failed to create producer profile.";
-    msg.style.color = "red";
+    console.error(insertError);
+    showProducerRegisterMessage("Failed to create producer profile.");
     return;
   }
 
-  msg.textContent = "Producer account created!";
-  msg.style.color = "green";
+  showProducerRegisterMessage(
+    "Producer account created successfully!",
+    "success"
+  );
 
   setTimeout(() => {
     window.location.href = "producer_login.html";
   }, 1200);
-}
+};

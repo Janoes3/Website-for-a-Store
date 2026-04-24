@@ -1,66 +1,200 @@
-/* =========================
-   GLOBAL
-========================= */
+/* =====================================================
+   DESIGN TOKENS (GREENFIELD THEME)
+===================================================== */
+:root {
+  --green-main: #2f6f4e;
+  --green-dark: #214c36;
+  --green-soft: #e9f2ec;
+  --bg-main: #f3f6f4;
+  --card-bg: #ffffff;
+  --text-main: #1f1f1f;
+  --text-muted: #666;
+  --border-soft: #dcdcdc;
+}
 
+/* =====================================================
+   GLOBAL RESET
+===================================================== */
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f4f6f5;
-  color: #222;
+  min-height: 100vh;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--bg-main);
+  color: var(--text-main);
 }
 
-/* =========================
-   NAVBAR
-========================= */
-
+/* =====================================================
+   NAVBAR (CENTRED & CALM)
+===================================================== */
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 14px 24px;
-  background-color: #2f6f4e;
-  color: white;
+  gap: 40px;
+  padding: 16px 32px;
+  background: var(--green-main);
 }
 
 .logo {
-  font-size: 1.4rem;
-  font-weight: bold;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: white;
+  position: absolute;
+  left: 32px;
 }
 
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 20px;
+  gap: 28px;
   margin: 0;
   padding: 0;
 }
 
 .nav-links a {
   color: white;
-  text-decoration: none;
   font-weight: 600;
+  text-decoration: none;
 }
 
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+/* Small utility logout button */
 .logout-btn {
-  background: white;
+  width: auto;
+  min-width: unset;
+  display: inline-block;
+
+  padding: 6px 14px;         /* smaller padding */
+  margin: 0;                 /* remove big margins */
+  font-size: 0.9rem;         /* slightly smaller text */
+
+  background: #ffffff;
   color: #2f6f4e;
   border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
+  border-radius: 999px;      /* pill style */
+  font-weight: 600;
   cursor: pointer;
 }
 
-/* =========================
-   HERO
-========================= */
+.logout-btn:hover {
+  background: #e8f2ec;
+}
 
+/* =====================================================
+   GLOBAL HEADINGS
+===================================================== */
+h1, h2 {
+  color: var(--green-main);
+  text-align: center;
+  margin-top: 0;
+}
+
+/* =====================================================
+   FORMS (CENTRED, SWEET, CONSISTENT)
+===================================================== */
+input,
+textarea,
+select {
+  width: 100%;
+  max-width: 380px;
+  padding: 12px;
+  margin: 10px auto;
+  display: block;
+  border-radius: 8px;
+  border: 1px solid var(--border-soft);
+  font-size: 1rem;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--green-main);
+}
+
+button {
+  width: 100%;
+  max-width: 380px;
+  padding: 12px;
+  margin: 16px auto;
+  display: block;
+  background: var(--green-main);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--green-dark);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =====================================================
+   AUTH / REGISTER / PRODUCER REGISTER
+===================================================== */
+.auth-container,
+.login-box {
+  max-width: 420px;
+  margin: 80px auto;
+  padding: 32px;
+  background: var(--card-bg);
+  border-radius: 18px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.12);
+  text-align: center;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px);
+}
+
+/* =====================================================
+   POPUP LOGIN
+===================================================== */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-box {
+  background: white;
+  padding: 30px;
+  border-radius: 18px;
+  width: 360px;
+  text-align: center;
+}
+
+/* =====================================================
+   HERO
+===================================================== */
 .hero {
   position: relative;
-  height: 340px;
+  height: 360px;
 }
 
 .hero-img {
@@ -72,316 +206,123 @@ body {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0,0,0,0.45);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   color: white;
-  text-align: center;
-}
-
-.hero-overlay h1 {
-  font-size: 2.4rem;
-  margin-bottom: 10px;
-}
-
-.hero-overlay p {
-  max-width: 600px;
-  margin-bottom: 16px;
+  padding: 24px;
 }
 
 .hero-button {
-  background: #2f6f4e;
+  background: var(--green-main);
   color: white;
-  padding: 10px 18px;
-  border-radius: 6px;
-  text-decoration: none;
+  padding: 12px 26px;
+  border-radius: 999px;
   font-weight: bold;
   margin: 6px;
 }
 
-/* =========================
-   PRODUCTS
-========================= */
-
-.products {
+/* =====================================================
+   SHARED CARD CONTAINERS
+===================================================== */
+.products,
+.cart-section,
+.checkout-container,
+.about-section,
+.confirmation-container,
+.producer-dashboard {
   max-width: 1100px;
-  margin: auto;
-  padding: 30px 20px;
+  margin: 40px auto;
+  padding: 28px;
+  background: var(--card-bg);
+  border-radius: 18px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.08);
 }
 
+/* =====================================================
+   PRODUCTS GRID
+===================================================== */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 22px;
 }
 
 .product-card {
   background: white;
-  border-radius: 10px;
-  padding: 14px;
+  padding: 16px;
+  border-radius: 18px;
   text-align: center;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
 }
 
 .product-card img {
   width: 100%;
   height: 150px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 12px;
 }
 
-.product-card h3 {
-  margin-top: 12px;
-}
-
-/* =========================
-   POPUP LOGIN
-========================= */
-
-.popup-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  display: none;
-  justify-content: center;
-  align-items: center;
-}
-
-.popup-box {
-  background: white;
-  padding: 24px;
-  width: 320px;
-  border-radius: 10px;
-}
-
-.popup-box input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 12px;
-}
-
-.popup-box button {
-  width: 100%;
-  padding: 10px;
-  background: #2f6f4e;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-
-/* =========================
-   CART & CHECKOUT
-========================= */
-
-.cart-section,
-.checkout-container {
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 20px;
-}
-
+/* =====================================================
+   CART & CHECKOUT ITEMS (SMALL, FRIENDLY)
+===================================================== */
 .cart-item,
 .checkout-item {
   display: flex;
   align-items: center;
-  gap: 16px;
-  background: white;
+  gap: 14px;
   padding: 14px;
-  border-radius: 10px;
+  background: white;
+  border-radius: 14px;
   margin-bottom: 14px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .cart-image,
 .checkout-image {
-  width: 80px;
-  height: 60px;
+  width: 70px;
+  height: 55px;
   object-fit: cover;
-  border-radius: 6px;
-}
-
-/* Quantity buttons */
-.quantity-controls {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.quantity-controls button {
-  width: 30px;
-  height: 30px;
-  background: #2f6f4e;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* =========================
-   PRODUCER DASHBOARD
-========================= */
-
-.producer-products,
-.producer-orders {
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 20px;
-}
-
-.product-item {
-  background: white;
-  padding: 16px;
-  border-radius: 10px;
-  margin-bottom: 16px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-}
-
-.product-item img {
-  width: 120px;
-  height: 90px;
-  object-fit: cover;
-  border-radius: 6px;
-}
-
-/* =========================
-   ORDER HISTORY
-========================= */
-
-.order-box {
-  background: white;
-  padding: 18px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-}
-
-.order-box h3 {
-  margin-top: 0;
-}
-
-.order-box ul {
-  margin-top: 10px;
-  padding-left: 18px;
-}
-
-/* =========================
-   CONFIRMATION PAGE
-========================= */
-
-.confirmation-container {
-  max-width: 800px;
-  margin: 60px auto;
-  padding: 30px;
-  background: white;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-/* =========================
-   CART CONTAINER (FIX)
-========================= */
-
-.cart-section {
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 20px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-#cart-items {
-  min-height: 80px;          /* ensures container is visible */
-  padding: 10px;
-  margin-bottom: 16px;
-  border: 1px dashed #ccc;   /* subtle visual boundary */
   border-radius: 8px;
 }
 
-
-/* =========================
-   PRODUCER LOGIN
-========================= */
-
-/* =========================
-   PRODUCER LOGIN
-========================= */
-
-.producer-login-container {
-  max-width: 400px;
-  margin: 100px auto;
-  padding: 30px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-  text-align: center;
-}
-
-.producer-login-container h2 {
-  margin-bottom: 20px;
-  color: #2f6f4e;
-}
-
-.producer-login-container input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 14px;
-  font-size: 1rem;
-}
-
-.producer-login-container button {
-  width: 100%;
-  padding: 10px;
-  background: #2f6f4e;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.producer-login-container a {
-  color: #2f6f4e;
-  text-decoration: none;
-}
-
-/* =========================
-   PRODUCER DASHBOARD
-========================= */
-
-.producer-dashboard {
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 20px;
-}
-
-.producer-dashboard h2 {
-  margin-top: 0;
-  color: #2f6f4e;
-}
-
-/* =========================
-   PRODUCER PRODUCTS
-========================= */
-
-.producer-products {
-  margin-top: 30px;
-}
-
-.producer-products .product-item {
+.quantity-controls {
   display: flex;
-  gap: 20px;
+  gap: 6px;
   align-items: center;
+}
+
+/* =====================================================
+   PRODUCER DASHBOARD (REAL DASHBOARD)
+===================================================== */
+.producer-dashboard {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+}
+
+#producerWelcome {
+  grid-column: 1 / -1;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+/* Producer products as grid */
+.producer-products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* Product card */
+.producer-products .product-item {
   background: white;
   padding: 16px;
-  border-radius: 10px;
-  margin-bottom: 16px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
 }
 
 .producer-products .product-item img {
@@ -389,76 +330,299 @@ body {
   height: 90px;
   object-fit: cover;
   border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+/* Stock control grouping */
+.producer-products input[type="number"] {
+  max-width: 90px;
+  margin: 6px auto;
+}
+
+/* Producer orders pane */
+.producer-orders {
+  background: var(--green-soft);
+  padding: 20px;
+  border-radius: 16px;
+}
+
+/* Individual order */
+.producer-orders .order-item {
+  background: white;
+  padding: 16px;
+  border-radius: 14px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* =====================================================
+   ORDER HISTORY (CUSTOMER)
+===================================================== */
+.order-box {
+  background: white;
+  padding: 20px;
+  border-radius: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+/* =====================================================
+   ACCOUNT & LOYALTY
+===================================================== */
+.account-container {
+  position: relative;
+}
+
+.loyalty-badge {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  background: var(--green-main);
+  color: white;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: bold;
+}
+
+/* =========================
+   FOOTER
+========================= */
+.site-footer {
+  background: #2f6f4e;
+  color: #fff;
+  margin-top: 60px;
+  padding: 40px 20px 20px;
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  max-width: 1100px;
+  margin: auto;
+  justify-content: space-between;
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 220px;
+}
+
+.footer-section h3,
+.footer-section h4 {
+  margin-bottom: 10px;
+  color: #e8f2ec;
+}
+
+.footer-section p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 8px;
+}
+
+.footer-section ul li a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 0.9rem;
+}
+
+
+
+/* =========================
+   GLOBAL RESET
+========================= */
+
+
+.logo {
+  color: white;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+.logout-btn {
+  background: white;
+  color: #2f6f4e;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #e8f2ec;
+}
+
+/* =========================
+   CONTAINERS
+========================= */
+.products,
+.checkout-container,
+.about-section,
+.confirmation-container,
+.producer-products,
+.producer-orders {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 28px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   PRODUCT GRID
+========================= */
+.product-grid,
+.producer-products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* =========================
+   PRODUCER PRODUCT CARD
+========================= */
+.product-item {
+  background: white;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+/* ✅ THIS IS THE IMPORTANT PART */
+.product-item img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  display: block;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+/* =========================
+   FORMS & BUTTONS
+========================= */
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background: #2f6f4e;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #214c36;
 }
 
 /* =========================
    PRODUCER ORDERS
 ========================= */
-
-.producer-orders {
-  margin-top: 40px;
-}
-
-.producer-orders .order-item {
+.order-item {
   background: white;
-  padding: 18px;
-  border-radius: 10px;
-  margin-bottom: 18px;
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 12px;
   box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-}
-
-.producer-orders .order-item strong {
-  display: block;
-  margin-bottom: 8px;
 }
 
 
 /* =========================
-   AUTH (LOGIN / REGISTER)
+   PRODUCER LOGIN PAGE FIX
 ========================= */
-
-.auth-container {
-  max-width: 380px;
-  margin: 100px auto;
-  padding: 30px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+.producer-login-container {
+  max-width: 420px;
+  margin: 80px auto;
+  padding: 32px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.12);
   text-align: center;
 }
 
-.auth-container h2 {
+.producer-login-container h2 {
   margin-bottom: 20px;
-  color: #2f6f4e;
 }
 
-.auth-container input {
+.producer-login-container input {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 14px;
-  font-size: 1rem;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
 }
 
-.auth-container button {
+.producer-login-container button {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
+  margin-top: 16px;
   background: #2f6f4e;
   color: white;
+  border-radius: 8px;
+  font-weight: 600;
   border: none;
-  border-radius: 6px;
   cursor: pointer;
-  font-size: 1rem;
 }
 
-.auth-container button:hover {
-  background: #255e42;
+.producer-login-container button:hover {
+  background: #214c36;
 }
 
-.auth-container a {
-  color: #2f6f4e;
-  text-decoration: none;
+.producer-login-container p {
+  margin-top: 14px;
 }
 
-.auth-container p {
-  margin-top: 10px;
+/* Hide footer when login popup is visible */
+#loginPopup:not([style*="display: none"]) ~ .site-footer {
+  display: none;
 }

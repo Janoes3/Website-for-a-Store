@@ -2,7 +2,18 @@ console.log("register.js loaded");
 
 const supabaseClient = window.supabaseClient;
 
-async function registerCustomer() {
+/* =====================================================
+   ✅ ADDITIVE MESSAGE HELPER (CONSISTENT)
+===================================================== */
+function showRegisterMessage(text, type = "error") {
+  const msg = document.getElementById("registerMessage");
+  if (!msg) return;
+
+  msg.textContent = text;
+  msg.style.color = type === "success" ? "green" : "red";
+}
+
+window.registerCustomer = async function registerCustomer() {
   const firstName = document.getElementById("firstName").value.trim();
   const lastName = document.getElementById("lastName").value.trim();
   const address = document.getElementById("address").value.trim();
@@ -12,31 +23,46 @@ async function registerCustomer() {
   const confirmPassword = document.getElementById("confirmPassword").value.trim();
   const msg = document.getElementById("registerMessage");
 
+  /* ---------------- CLEAR PREVIOUS MESSAGE ---------------- */
+  showRegisterMessage("");
+
+  /* ---------------- REQUIRED FIELDS ---------------- */
   if (!firstName || !lastName || !email || !password) {
-    msg.textContent = "Please fill in all required fields.";
-    msg.style.color = "red";
+    showRegisterMessage("Please fill in all required fields.");
     return;
   }
 
+  /* ---------------- EMAIL FORMAT VALIDATION (ADDED) ---------------- */
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+    showRegisterMessage("Please enter a valid email address.");
+    return;
+  }
+
+  /* ---------------- PASSWORD MATCH ---------------- */
   if (password !== confirmPassword) {
-    msg.textContent = "Passwords do not match.";
-    msg.style.color = "red";
+    showRegisterMessage("Passwords do not match.");
     return;
   }
 
-  // ✅ Create Supabase Auth user
+  /* ---------------- PASSWORD STRENGTH (ADDED) ---------------- */
+  if (password.length < 6) {
+    showRegisterMessage("Password must be at least 6 characters.");
+    return;
+  }
+
+  /* ---------------- CREATE AUTH USER ---------------- */
   const { data, error } = await supabaseClient.auth.signUp({
     email,
     password
   });
 
   if (error) {
-    msg.textContent = error.message;
-    msg.style.color = "red";
+    showRegisterMessage(error.message);
     return;
   }
 
-  // ✅ Create customer profile linked to auth user
+  /* ---------------- CREATE CUSTOMER PROFILE ---------------- */
   const { error: insertError } = await supabaseClient
     .from("tbl_customer")
     .insert({
@@ -49,13 +75,12 @@ async function registerCustomer() {
     });
 
   if (insertError) {
-    msg.textContent = "Failed to create customer profile.";
-    msg.style.color = "red";
+    showRegisterMessage("Failed to create customer profile.");
     return;
   }
 
-  msg.textContent = "Account created successfully!";
-  msg.style.color = "green";
+  /* ---------------- SUCCESS ---------------- */
+  showRegisterMessage("Account created successfully!", "success");
 
   setTimeout(() => {
     window.location.href = "index.html";

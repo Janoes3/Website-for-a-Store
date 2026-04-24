@@ -41,6 +41,7 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="products.html">Products</a></li>
       <li><a href="order_history.html">My Orders</a></li>
+      <li><a href="account.html">My Account</a></li>
     </ul>
 
     <button class="logout-btn" onclick="logout()">Logout</button>
@@ -60,6 +61,31 @@
     </div>
   </section>
 
+
+<!-- ================= ABOUT GREENFIELD HUB ================= -->
+<section class="about-section">
+  <h2>About Greenfield Local Hub</h2>
+
+  <p>
+    Greenfield Local Hub is a digital marketplace designed to connect customers
+    directly with local farmers and producers. The platform promotes sustainable
+    agriculture, transparency, and community‑based trade by allowing customers
+    to purchase fresh, locally‑sourced goods directly from producers.
+  </p>
+
+  <p>
+    Producers can manage their product listings, monitor orders, and update stock
+    levels, while customers benefit from a simple ordering process and clear
+    information about where their food comes from.
+  </p>
+
+  <p>
+    By supporting local producers, Greenfield Local Hub helps strengthen the local
+    economy and encourages environmentally responsible farming practices.
+  </p>
+</section>
+
+
   <!-- FEATURED PRODUCTS -->
   <section class="products">
     <h2>Featured Products</h2>
@@ -74,48 +100,93 @@
 <!-- ================= PAGE LOGIC ================= -->
 <script>
 async function initIndex() {
-  const { data: { user } } = await supabaseClient.auth.getUser();
+  // ✅ SAFE session check (does NOT throw)
+  const { data: { session } } =
+    await supabaseClient.auth.getSession();
 
-  // ✅ FORCE LOGIN FIRST
-  if (!user) {
+  if (!session) {
     document.getElementById("loginPopup").style.display = "flex";
     document.getElementById("siteContent").style.display = "none";
     return;
   }
 
-  // ✅ UNLOCK SITE AFTER LOGIN
   document.getElementById("loginPopup").style.display = "none";
   document.getElementById("siteContent").style.display = "block";
-
   loadFeaturedProducts();
 }
 
-async function loadFeaturedProducts() {
-  const container = document.getElementById("featuredProducts");
+/* ✅ DEFINE popupLogin ON window (REQUIRED) */
+window.popupLogin = async function popupLogin() {
+  const email =
+    document.getElementById("popupEmail").value.trim();
+  const password =
+    document.getElementById("popupPassword").value;
+  const msg =
+    document.getElementById("popupLoginMessage");
 
-  const { data, error } = await supabaseClient
-    .from("tbl_product")
-    .select("product_name, productimage")
-    .order("productid", { ascending: false })
-    .limit(3);
+  msg.textContent = "";
+  msg.style.color = "red";
+
+  if (!email || !password) {
+    msg.textContent =
+      "Please enter both email and password.";
+    return;
+  }
+
+  const { error } =
+    await supabaseClient.auth.signInWithPassword({
+      email, password
+    });
+
+  if (error) {
+    msg.textContent =
+      "Invalid email or password.";
+    return;
+  }
+
+  msg.style.color = "green";
+  msg.textContent = "Login successful.";
+
+  setTimeout(() => {
+    document.getElementById("loginPopup").style.display = "none";
+    document.getElementById("siteContent").style.display = "block";
+    loadFeaturedProducts();
+  }, 400);
+};
+
+async function loadFeaturedProducts() {
+  const container =
+    document.getElementById("featuredProducts");
+
+  const { data, error } =
+    await supabaseClient
+      .from("tbl_product")
+      .select("product_name, productimage")
+      .order("productid", { ascending: false })
+      .limit(3);
 
   if (error || !data || data.length === 0) {
-    container.innerHTML = "<p>No products available.</p>";
+    container.innerHTML =
+      "<p>No products available.</p>";
     return;
   }
 
   container.innerHTML = "";
 
   data.forEach(product => {
-    const card = document.createElement("div");
+    const card =
+      document.createElement("div");
     card.className = "product-card";
-    card.onclick = () => window.location.href = "products.html";
+    card.onclick =
+      () => window.location.href = "products.html";
 
-    const img = document.createElement("img");
+    const img =
+      document.createElement("img");
     img.src = product.productimage;
     img.alt = product.product_name;
 
-    const name = document.createElement("h3");
+    const name =
+      document.createElement("h3");
     name.textContent = product.product_name;
 
     card.appendChild(img);
@@ -130,6 +201,33 @@ window.addEventListener("load", initIndex);
 <!-- REQUIRED SCRIPTS -->
 <script src="static/login.js"></script>
 <script src="static/logout.js"></script>
+<footer class="site-footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>Greenfield Local Hub</h3>
+      <p>Connecting customers with local farmers and producers.</p>
+    </div>
 
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="account.html">My Account</a></li>
+        <li><a href="producer_login.html">Producer Portal</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>Contact</h4>
+      <p>Email: support@greenfieldhub.co.uk</p>
+      <p>Local. Sustainable. Transparent.</p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2026 Greenfield Local Hub. All rights reserved.
+  </div>
+</footer>
 </body>
 </html>

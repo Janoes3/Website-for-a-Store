@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Products – Greenfield Local Hub</title>
+  <title>My Account – Greenfield Local Hub</title>
 
   <link rel="stylesheet" href="static/styles.css">
 
@@ -13,44 +13,50 @@
 
 <body>
 
-<!-- NAVIGATION BAR -->
+<!-- NAVBAR -->
 <nav class="navbar">
   <div class="logo">Greenfield Hub</div>
 
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="products.html">Products</a></li>
+    <li><a href="order_history.html">My Orders</a></li>
   </ul>
 
   <button class="logout-btn" onclick="logout()">Logout</button>
 </nav>
 
-<!-- PRODUCTS SECTION -->
-<section class="products">
-  <h2>Featured Products</h2>
-
-  <div class="product-grid" id="productList">
-    <p>Loading products…</p>
-  </div>
-</section>
-
-<!-- CART SECTION -->
-<section class="cart-section">
-  <h2>Your Cart</h2>
-
-  <div id="cart-items">
-    <p>Your cart is empty.</p>
+<!-- ACCOUNT SECTION -->
+<section class="checkout-container account-container">
+  
+  <!-- ✅ Loyalty badge -->
+  <div id="loyaltyPointsBadge" class="loyalty-badge">
+    ⭐ Points: 0
   </div>
 
-  <!-- ✅ This now correctly uses products.js -->
-  <button id="checkoutBtn" onclick="goToCheckout()">
-    Proceed to Checkout
-  </button>
+  <h2>My Account</h2>
+
+  <label>First Name</label>
+  <input type="text" id="firstName">
+
+  <label>Last Name</label>
+  <input type="text" id="lastName">
+
+  <label>Phone</label>
+  <input type="text" id="contactPhone">
+
+  <label>Email</label>
+  <input type="email" id="email" disabled>
+
+  <br><br>
+  <button onclick="updateAccount()">Update Details</button>
+
+  <p id="accountMessage"></p>
 </section>
 
-<!-- PAGE SCRIPTS -->
-<script src="static/products.js"></script>
+<script src="static/account.js"></script>
 <script src="static/logout.js"></script>
+
 <footer class="site-footer">
   <div class="footer-content">
     <div class="footer-section">
@@ -79,5 +85,6 @@
     &copy; 2026 Greenfield Local Hub. All rights reserved.
   </div>
 </footer>
+
 </body>
 </html>

@@ -1,0 +1,128 @@
+Greenfield Local Hub
+Greenfield Local Hub is a web‑based marketplace that connects customers with local farmers and producers. The platform allows customers to browse products, place orders, and manage accounts, while producers can upload products, manage stock levels, and view incoming orders.
+The system is built with a strong focus on security, data integrity, and role‑based access control, using Supabase Authentication and Row Level Security (RLS).
+
+Key Features
+Customer Features
+
+Secure registration and login using Supabase Authentication
+Browse available products uploaded by local producers
+Add products to a shopping cart and manage quantities
+Place orders and view full order history
+Manage personal account details and loyalty points
+
+Producer Features
+
+Secure producer registration and login
+Upload new products with images stored in Supabase Storage
+Manage stock quantities through a producer dashboard
+View incoming orders that include their products
+Access limited customer information required for order fulfilment
+
+
+Technologies Used
+
+Frontend: HTML, CSS, JavaScript
+Backend & Database: Supabase (PostgreSQL)
+Authentication: Supabase Auth
+Storage: Supabase Storage (public product images)
+Security: Supabase Row Level Security (RLS)
+
+
+Authentication Design
+Supabase Authentication is used to manage all user registration and login functionality for both customers and producers.
+Each authenticated user is assigned a unique identifier (auth_user_id) by Supabase. This identifier is used as a secure link between the authentication system and application‑specific profile tables.
+Authentication responsibilities include:
+
+Validating user credentials securely
+Managing user sessions
+Providing user identity via auth.uid()
+
+Sensitive information such as passwords is never stored or handled directly by the application.
+
+Row Level Security (RLS)
+Row Level Security (RLS) is implemented across all application tables to ensure that users can only access data they are authorised to view or modify.
+RLS policies are defined at the database level, meaning that even if client‑side checks were bypassed, the database itself would still prevent unauthorised access.
+RLS Strategy
+Each user‑specific table includes an auth_user_id column, which links records to the authenticated Supabase user.
+Policies ensure that:
+
+Customers can only view and update their own profile data
+Producers can only manage products they own
+Orders are only visible to the customer who placed them or the producer fulfilling them
+Stock records can only be updated by the producer who owns the product
+
+This approach enforces least‑privilege access, significantly improving system security.
+
+Data Privacy & Protection
+The system follows data minimisation principles.
+Email addresses are managed exclusively by Supabase Authentication and are not duplicated across application tables unless explicitly required. This avoids unnecessary exposure of sensitive data.
+Customer information visible to producers is intentionally limited to:
+
+Customer reference ID
+Optional first name
+This provides sufficient information for order fulfilment without exposing private contact details.
+
+Public producer information is stored separately from authentication data and is explicitly shared by the producer during registration.
+
+Database Structure Overview
+
+tbl_customer – Customer profile information
+tbl_producer – Producer profile information
+tbl_product – Product listings uploaded by producers
+tbl_stock – Stock quantities for each product
+tbl_cart – Active customer carts
+tbl_cartitem – Products contained within carts
+tbl_order – Placed orders
+tbl_orderitem – Items associated with orders
+
+All profile tables reference Supabase users via auth_user_id.
+
+Product & Stock Management
+Producers can upload products and images via the producer dashboard.
+
+Product images are uploaded to Supabase Storage
+Public URLs are generated and stored in the database
+Stock levels are tracked separately
+Validation ensures stock cannot fall below zero
+
+This ensures accurate inventory management and prevents customers from ordering unavailable items.
+
+Order Processing
+Orders are processed in multiple secure steps:
+
+Customer places an order
+Order record is created
+Associated order items are recorded
+Stock levels are updated
+Customer cart is cleared
+
+Customers can view their full order history, while producers can view only orders containing their products.
+
+Error Handling & User Feedback
+The system includes defensive programming techniques to improve reliability:
+
+Client‑side input validation
+User‑friendly error and success messages
+Graceful handling of empty or missing data
+Fallback messages when content is unavailable
+
+This improves the user experience and prevents invalid operations.
+
+How to Run the Project
+
+Clone or download the project files
+Configure Supabase credentials in supabaseClient.js
+Ensure Supabase tables and RLS policies are set up correctly
+Serve the project using a local web server
+Open index.html to begin
+
+
+Future Improvements
+
+Payment gateway integration
+Order status updates by producers
+Messaging between customers and producers
+Improved mobile responsiveness
+Analytics for producer sales performance
+

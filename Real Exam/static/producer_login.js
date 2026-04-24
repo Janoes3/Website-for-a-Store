@@ -2,7 +2,7 @@ console.log("producer_login.js loaded");
 
 const supabaseClient = window.supabaseClient;
 
-async function producerLogin() {
+window.producerLogin = async function producerLogin() {
   const email = document.getElementById("producerEmail").value.trim();
   const password = document.getElementById("producerPassword").value.trim();
   const msg = document.getElementById("producerLoginMessage");
