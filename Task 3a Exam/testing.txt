@@ -1,0 +1,52 @@
+“What happened when you attempted to order a product?”
+How easy or difficult was it to find the product listings on the website?
+
+How would you rate the colours and layout of the website?
+
+What did you find most easy to use on the website?”
+Did you notice any options to adjust text size or accessibility settings, and if so, how effective were they?
+How would you rate the colours and layout of the website?
+
+Describe your experience when adding products to the cart.
+How clear was the checkout process to understand
+How confident did you feel navigating the website and selecting different options
+How clear and helpful were the error messages when something went wrong?
+How did the website perform on your device, including any issues you experienced?
+Based on your inspection or understanding, does the system appear to handle user data securely?
+How consistent and predictable did the backend behaviour appear during use?
+Did the system appear to handle user input safely and prevent invalid or unsafe input?
+What happened when you updated product stock as a producer?
+How accurately were orders created and displayed during your testing?
+How clearly were customer and producer roles enforced during your testing?
+
+
+
+“Which role did you test?”
+
+How easy was it to find the producer dashboard?
+What happened when you attempted to update product stock?
+How clear was the order management interface?
+What happened when you changed an order status?
+How confident did you feel deleting a product?
+Were actions clearly limited to products belonging to you?
+What difficulties, if any, did you experience as a producer?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+“Based on your inspection, does the system appear to handle user data securely?
