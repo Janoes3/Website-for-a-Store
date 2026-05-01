@@ -47,7 +47,16 @@ Testing limited to supervised sessions
 Example phrasing: Due to the limited sample size, results represent patterns rather than definitive user behaviour, however they provide sufficient insight to inform future development.
 
 
-a
 
+Step C — Record this in a simple mapping table (for you, not necessarily the exam paper)
+You can do this as notes or a table:
+KPI: Customers can place orders independently
+Evidence from questions:
+
+Q8: Ease of adding to cart
+Q11: Checkout clarity
+Q14: Error handling
+
+The KPI that customers can place orders independently was evaluated using multiple questionnaire questions focusing on cart usage, checkout clarity, and error feedback. Questionnaire responses showed a strong positive trend, supported by user observation where all participants completed checkout without guidance. Minor hesitation was observed at the final confirmation step, indicating the KPI was largely met, with scope for minor interface improvements.
 
 
