@@ -1,3 +1,21 @@
+Frequency tables 
+
+Use answer_numeric
+Count how many times each appears (COUNTIF)
+Build a bar chart from it
+
+Likert Scales 
+
+
+
+
+
+
+
+
+
+
+
 Use Top‑2 / Bottom‑2 analysis (EXAM‑FRIENDLY)
 This is straight from your DPDD slides.
 
