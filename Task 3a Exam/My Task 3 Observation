@@ -1,0 +1,48 @@
+Task Scenario
+The participant was asked to browse products, add one product to the cart, and complete the checkout process.
+
+Start and End Conditions
+Start: Logged in as customer on homepage
+End: Order confirmation page displayed
+
+
+Task Scenario
+The participant was asked to log in as a producer, update stock, change an order status, and delete a product.
+
+Start and End Conditions
+Start: Logged in on producer dashboard
+End: Product deleted and dashboard refreshed
+
+
+Task Scenario
+The participant was asked to navigate the site using keyboard controls and view the site on a smaller screen.
+
+Start and End Conditions
+Start: Homepage
+End: Navigated to Products and logged out using keyboard
+
+
+Step‑by‑step during supervised conditions
+
+Choose participant
+Explain the task (do not guide them)
+Start timing
+Observe silently
+Write exactly what they do
+Note any hesitation or errors
+Record direct quotes
+Stop timing
+Take screenshots
+Save everything locally
+
+
+
+
+
+
+
+
+
+
+
+
