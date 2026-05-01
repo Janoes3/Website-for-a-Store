@@ -1,52 +1,53 @@
-“What happened when you attempted to order a product?”
-How easy or difficult was it to find the product listings on the website?
+Use Top‑2 / Bottom‑2 analysis (EXAM‑FRIENDLY)
+This is straight from your DPDD slides.
 
-How would you rate the colours and layout of the website?
+Top‑2 = Positive experience (Agree + Strongly Agree)
+Bottom‑2 = Negative experience (Disagree + Strongly Disagree)
 
-What did you find most easy to use on the website?”
-Did you notice any options to adjust text size or accessibility settings, and if so, how effective were they?
-How would you rate the colours and layout of the website?
+What examiners look for here:
 
-Describe your experience when adding products to the cart.
-How clear was the checkout process to understand
-How confident did you feel navigating the website and selecting different options
-How clear and helpful were the error messages when something went wrong?
-How did the website perform on your device, including any issues you experienced?
-Based on your inspection or understanding, does the system appear to handle user data securely?
-How consistent and predictable did the backend behaviour appear during use?
-Did the system appear to handle user input safely and prevent invalid or unsafe input?
-What happened when you updated product stock as a producer?
-How accurately were orders created and displayed during your testing?
-How clearly were customer and producer roles enforced during your testing?
+Trends
+Skews (mostly positive? mixed?)
+Outliers (a few low scores)
+
+Avoid statements like:
+“Most users liked it.”
+
+Instead say:
+“The majority of users rated this feature positively, with a small proportion indicating difficulty.”
 
 
+Assign simple codes
+Short phrases representing what the user is sayin
 
-“Which role did you test?”
 
-How easy was it to find the producer dashboard?
-What happened when you attempted to update product stock?
-How clear was the order management interface?
-What happened when you changed an order status?
-How confident did you feel deleting a product?
-Were actions clearly limited to products belonging to you?
-What difficulties, if any, did you experience as a producer?
+Group codes into themes
+Example themes for your system:
 
+Navigation clarity
+Ease of completing tasks
+Error handling and feedback
+Producer dashboard usability
+Accessibility and layout
 
 
 
+Support themes with evidence
+Use short quotes, not assumptions.
+Example: Several users mentioned navigation clarity as a strength, with one stating, “I found the products quickly without needing help.”
+
+
+ Identify limitations (Examiners EXPECT this)
+Briefly acknowledge constraints:
+
+Small sample size
+Some yes/no questions limit depth
+Testing limited to supervised sessions
+
+Example phrasing: Due to the limited sample size, results represent patterns rather than definitive user behaviour, however they provide sufficient insight to inform future development.
+
+
+a
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-“Based on your inspection, does the system appear to handle user data securely?
