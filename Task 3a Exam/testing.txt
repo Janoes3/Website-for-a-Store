@@ -1,3 +1,85 @@
+
+Evidence:
+
+Original client brief and user stories
+Observation 1 (missing cart confirmation)
+Technical questionnaire responses
+
+Evidence:
+
+Observation 1 navigation success
+Verbatim quote: “There should be a pop‑up telling me the product had been added to the cart”
+Screenshot: product page layout
+
+Evidence:
+
+Observation 2 producer task completion
+Questionnaire feedback on dashboard clarity
+Evidence:
+
+Technical questionnaire feedback
+Screenshot: Supabase table structure
+Observation confirming role‑restricted access
+
+Evidence:
+
+Task 3A planning documentation
+Comparison of observation behaviour vs questionnaire sentiment
+
+Evidence:
+Screenshot:ProductpagewithimagesScreenshot: Product page with imagesScreenshot:Productpagewithimages
+Screenshot:SupabasedatatableScreenshot: Supabase data tableScreenshot:Supabasedatatable
+
+
+Licencenote:PexelsimagesLicence note: Pexels imagesLicencenote:Pexelsimages
+Evidence referenced:
+
+Proposal & user stories
+Task 3A questionnaires
+Observation records (Customer, Producer, Accessibility)
+
+Evidence:
+AccessibilityobservationAccessibility observationAccessibilityobservation
+Task3AfeedbacksummaryTask 3A feedback summaryTask3Afeedbacksummary
+
+Evidence:
+Task3AfeedbackchartsTask 3A feedback chartsTask3Afeedbackcharts
+ObservationverbatimquotesObservation verbatim quotesObservationverbatimquotes
+
+
+
+
+
+
+
+You should gather and save locally:
+✅ Screenshots
+
+Homepage
+Products page
+Cart with items
+Checkout confirmation
+Producer dashboard
+Stock update
+Order status change
+Delete confirmation
+Mobile view
+Keyboard focus state
+
+✅ Documents
+
+Completed observation templates (3)
+Task 3A questionnaire exports (Excel/CSV)
+Feedback summary notes
+KPI list
+User stories from proposal
+
+✅ Quotes
+
+2–3 verbatim quotes per observation
+Selected Task 3A comment
+
+
 Frequency tables 
 
 Use answer_numeric
@@ -5,14 +87,6 @@ Count how many times each appears (COUNTIF)
 Build a bar chart from it
 
 Likert Scales 
-
-
-
-
-
-
-
-
 
 
 
